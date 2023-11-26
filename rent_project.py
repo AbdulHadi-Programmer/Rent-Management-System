@@ -8,7 +8,7 @@ print("Rent Management System Program".center(75, " "))
 ###################################################
 def create_tenant(name, contact, unit=None, duration=None):
     return {"name": name, "contact": contact, "contracts": [{"unit": unit, "duration": duration}]}
-# Example usage
+# Example usage, unit = str, duration = int
 # tenant_info = create_tenant("John Doe", "+123456789", unit="A101", duration=12, contract=[5, "month/year"])
 
 def create_property(name, rent):
@@ -33,10 +33,11 @@ def display_tenants(tenants):
             print(f"   Contract {contract_index}: Property: {contract['property']['name']}, Duration: {contract['duration']} {contract['unit']}")
 # list of Tenant to add:
 tenants = [
-    create_tenant("Person1", "+92321456789"),
-    create_tenant("Person2", "+92322567890"),
-    create_tenant("Person3", "+92323678901"),
-    create_tenant("Person4", "+92324789012")
+    ##########################################
+    create_tenant("Person1", "+92321456789", unit="month", duration=6),
+    create_tenant("Person2", "+92322567890", unit="year", duration=2),
+    create_tenant("Person3", "+92323678901", unit="month", duration=3),
+    create_tenant("Person4", "+92324789012", unit="year", duration=1)
 ]
 # List of Properties:
 properties = [
@@ -63,12 +64,20 @@ while True:
         choice = int(input('Enter The Option:\n1) Add New Tenant\n2) Remove Existing Tenant\n3) Show All Tenants\n'))
 
     if choice == 1:
+        # Add new tenant
         name = input("Enter The name of New Tenant: ").title()
         contact = input("Enter the Contact Number with Country Code: ")
-        new = create_tenant(name, contact)
+        ################################
+        try:
+            duration = int(input("Enter The Duration (Time) in num: "))
+        except ValueError as e:
+            print(e)
+            duration = input("Enter The Duration (Time) in num: ")
+            
+        unit = input("Enter The Time Period (Month/year): ").lower()
+        new = create_tenant(name, contact, unit, duration)
         tenants.append(new)
         print(f"Tenant {name} added successfully.")
-        # Add new tenant
     elif choice == 2:
         name = input("Enter The name of Tenant to remove: ").title()
         for tenant in tenants:
