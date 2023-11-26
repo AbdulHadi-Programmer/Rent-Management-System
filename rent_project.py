@@ -5,9 +5,11 @@
 # rent = 10000 rs or whatever currency 
 # Contract = 1 month or 1 year that is store in list etc
 print("Rent Management System Program".center(75, " "))
-
-def create_tenant(name, contact):
-    return {"name": name, "contact": contact, "contracts": []}
+###################################################
+def create_tenant(name, contact, unit=None, duration=None):
+    return {"name": name, "contact": contact, "contracts": [{"unit": unit, "duration": duration}]}
+# Example usage
+# tenant_info = create_tenant("John Doe", "+123456789", unit="A101", duration=12, contract=[5, "month/year"])
 
 def create_property(name, rent):
     return {"name": name, "rent": rent, "tenant": None}
@@ -69,12 +71,17 @@ while True:
         # Add new tenant
     elif choice == 2:
         name = input("Enter The name of Tenant to remove: ").title()
-        if name in tenants:
-            tenants.discard(name)
-        else:
-            print(f"Invalid Input\n{name} is not Found")
+        for tenant in tenants:
+            if tenant["name"] == name:
+                tenants.remove(tenant)
+                print(f"Tenant {name} removed successfully.")
+                break
+            else:
+                print(f"Tenant {name} not found.")
         # Remove Existing Tenant
     elif choice == 3:
+        display_tenants(tenants)
+        
         # Show All Tenants
         pass
     else:
