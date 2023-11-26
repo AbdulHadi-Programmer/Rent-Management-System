@@ -54,22 +54,29 @@ for i in range(len(properties)):
 # display_properties(properties)
 
 while True:
-    choice = int(input('Enter The Option:\n1) Add New Tenant\n2) Remove Existing Tenant\n3) Show All Tenants\n'))
-    def main():
-        if choice == 1:
-            name = input("Enter The name of New Tenant: ").capitilize()
-            contact = input("Enter the Contact Number with Country Code: ")
-            create_tenant(name, contact)
-            pass # Add new tenant
-        elif choice == 2:
-            name = input("Enter The name of Tenant to remove: ").capitilize()
-            if name in tenants:
-                tenants.discard(name)
-            else:
-                print(f"Invalid Input\n{name} is not Found")
-            pass # Remove Existing Tenant
-        
-        elif choice == 3:
-            pass # Show All Tenants
-        else :
-            break
+    try:
+        choice = int(input('Enter The Option:\n1) Add New Tenant\n2) Remove Existing Tenant\n3) Show All Tenants\n'))
+    except ValueError as e:
+        print(f"Error: {e}")
+        choice = int(input('Enter The Option:\n1) Add New Tenant\n2) Remove Existing Tenant\n3) Show All Tenants\n'))
+
+    if choice == 1:
+        name = input("Enter The name of New Tenant: ").title()
+        contact = input("Enter the Contact Number with Country Code: ")
+        new = create_tenant(name, contact)
+        tenants.append(new)
+        print(f"Tenant {name} added successfully.")
+        # Add new tenant
+    elif choice == 2:
+        name = input("Enter The name of Tenant to remove: ").title()
+        if name in tenants:
+            tenants.discard(name)
+        else:
+            print(f"Invalid Input\n{name} is not Found")
+        # Remove Existing Tenant
+    elif choice == 3:
+        # Show All Tenants
+        pass
+    else:
+        break  # Exit the loop if the choice is not 1, 2, or 3
+
