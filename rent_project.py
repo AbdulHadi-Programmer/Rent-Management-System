@@ -154,5 +154,5 @@ while True:
         properties.append(cp)
 
     else:
-        break  # Exit the loop if the choice is not 1, 2, or 3
+        break  
 
