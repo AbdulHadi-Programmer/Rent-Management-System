@@ -60,7 +60,7 @@ def connect_tenants_and_properties(tenants, properties):
 def display_tenants_properly(tenants):
     print("\nTenant Details:")
     for tenant in tenants:
-        print(f"\nName: {tenant['name']}, Contact: {tenant['contact']}, Duration: {tenant['duration']} {tenant['unit']}")
+        print(f"\nTenant Name: {tenant['name']}, Contact: {tenant['contact']}, Duration: {tenant['duration']} {tenant['unit']}")
 
 
 
@@ -87,7 +87,7 @@ def get_user_choice():
         except ValueError as e:
             print(f"Error: {e}")
             print("Please enter a valid integer.")
-
+            
 
 while True:
     # Var of a function:
@@ -144,11 +144,6 @@ while True:
         display_properties(properties)
         
     elif choice == 5:
-        # 
-        # print("\nAssigned Tenants and Properties:")
-        # for i, tenant in enumerate(tenants):
-        #     print(f"Tenant {i}: Name: {tenant['name']}, Property: {tenant['property']}, Duration: {tenant['duration']}")
-        #
         a = connect_tenants_and_properties(tenants, properties)
         print(a)
     
