@@ -4,6 +4,9 @@
 # Write two list of tenants and properties
 # Property is a class
 # properties is a list 
+## Add User Interaction '
+## Add Data Validation and we can also use Error Handling
+##
 
 class Property:
     Location = "Gazderabad" # I make location a class var because my all properties belong to this area
@@ -21,15 +24,15 @@ class Property:
 # p2.Detail()
 # properties = [p1, p2]
 
-# properties = [
-#         Property("House1", 2, 15000),
-#         Property("House1", 3, 52000),
-#         Property("House1", 2, 12000),
-#         Property("House2", 1, 10000),
-#         Property("House2", 4, 60000),
-#         Property("House2", 5, 65000),
-#         # Add more properties as needed
-#     ]
+properties = [
+        Property("House1", 2, 15000), # Direct make class as list element
+        Property("House1", 3, 52000),
+        Property("House1", 2, 12000),
+        Property("House2", 1, 10000),
+        Property("House2", 4, 60000),
+        Property("House2", 5, 65000),
+        # Add more properties as needed
+    ]
 #     # Display details for each property using a loop and enumerate
 # for index, property_obj in enumerate(properties, start=1):
 #     print(f"\nProperty {index} Details:")
@@ -41,7 +44,15 @@ class Tenant:
         self.gender = gender
         self.contactNum = contactNum
         self.email = email
-        
+        self.rent_history = []
+
+    def add_rent(self, rent_amount):
+        self.rent_history.append(rent_amount)
+        print(f'Rent of {rent_amount} added to {self.name}\'s history.\n')
+    
+    def display_rent_history(self):
+        print(f'Rent History for {self.name}: {self.rent_history}\n')
+    
     def person_detail(self):
         # print(f'Tenant Detail:\nName: {self.name}\nGender: {self.gender}\nPhone Num: {self.contactNum}\nEmail: {self.email}\n')
         print(f'Name: {self.name}\nGender: {self.gender}\nPhone Num: {self.contactNum}\nEmail: {self.email}\n')
@@ -54,11 +65,11 @@ class Tenant:
         print(f'Tenant details updated.\n')
 
 
-# t1 = Tenant("Abdul Hadi", "Male", "+922319536","abc@gmail.com")
-# t2 = Tenant("Jane Smith", "Female", "+987654321", "jane@example.com")
-# t3 = Tenant("Bob Johnson", "Male", "+111222333", "bob@example.com")
-# t4 = Tenant("John Doe", "Male", "+123456789", "john@example.com")
-# tenants = [t1, t2, t3, t4]
+t1 = Tenant("Abdul Hadi", "Male", "+922319536","abc@gmail.com") # Make object of class to store in list 
+t2 = Tenant("Jane Smith", "Female", "+987654321", "jane@example.com")
+t3 = Tenant("Bob Johnson", "Male", "+111222333", "bob@example.com")
+t4 = Tenant("John Doe", "Male", "+123456789", "john@example.com")
+tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
 ## t1.person_detail()
 ## t1.contract()
 # for index, tenant in enumerate(tenants, start=1):
@@ -80,13 +91,19 @@ class Lease:
         print(f'Duration for {self.tenant.name} updated to {self.duration}\n')
 
     def remove_tenant(self):
-        print(f'Removing tenant {self.tenant.name} from the lease.\n')
-        self.tenant = None  # Setting tenant to None indicates that the lease is now vacant
+        # print(f'Removing tenant {self.tenant.name} from the lease.\n')
+        # self.tenant = None  # Setting tenant to None indicates that the lease is now vacant
+        if self.tenant:
+            print(f'Removing tenant {self.tenant.name} from the lease.\n')
+            self.tenant = None
+        else:
+            print('No tenant to remove from the lease.\n')
+    
 # l1 = Lease(tenants[0], properties[0])
 # l2 = Lease(tenants[1], properties[1])
 # l3 = Lease(tenants[2], properties[2])
 #################################################
-print("\n\n\nExample Showeing:\n\n")
+# print("\n\n\nExample Showeing:\n\n")
 # Example usage:
 """property1 = Property("House1", 2, 12000)
 tenant1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
@@ -106,3 +123,12 @@ lease1.display_details()
 lease1.remove_tenant()
 lease2.display_details()
 """
+# # Rent Added Funcion (Example usage):
+# t1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
+# l1 = Lease(t1, Property("House1", 2, 15000), "1 year")
+# # Add rent for the tenant
+# t1.add_rent(15000)
+# t1.add_rent(14000)
+# t1.add_rent(10000)
+# # Display rent history
+# t1.display_rent_history()
