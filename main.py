@@ -14,11 +14,24 @@ class Property:
     def Detail(self):
         print(f'The Property Detail:\nHouseName: {self.HouseName}\nLocation: {self.Location}\nNo of Rooms: {self.noOfRooms}\nRent: {self.rent}\n')
 # Now Property class is properly Working:
-obj1 = Property("House1", 2, 12000)
-obj1.Detail()
-obj2 = Property("House2", 4, 25000)
-obj2.Detail()
-properties = []
+p1 = Property("House1", 2, 12000)
+p1.Detail()
+p2 = Property("House2", 4, 25000)
+p2.Detail()
+properties = [p1, p2]
 
+# properties = [
+#         Property("House1", 2, 15000),
+#         Property("House1", 3, 52000),
+#         Property("House1", 2, 12000),
+#         Property("House2", 1, 10000),
+#         Property("House2", 4, 60000),
+#         Property("House2", 5, 65000),
+#         # Add more properties as needed
+#     ]
+#     # Display details for each property using a loop and enumerate
+# for index, property_obj in enumerate(properties, start=1):
+#     print(f"\nProperty {index} Details:")
+#     property_obj.Detail()
 
  
