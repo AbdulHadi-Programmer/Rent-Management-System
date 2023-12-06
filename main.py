@@ -70,11 +70,13 @@ t2 = Tenant("Jane Smith", "Female", "+987654321", "jane@example.com")
 t3 = Tenant("Bob Johnson", "Male", "+111222333", "bob@example.com")
 t4 = Tenant("John Doe", "Male", "+123456789", "john@example.com")
 tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
+# t_detail = [t1.person_detail(), t2.person_detail(), t3.person_detail(), t4.person_detail() ]
 ## t1.person_detail()
 ## t1.contract()
-# for index, tenant in enumerate(tenants, start=1):
-#     print(f"\nTenant {index} Details:")
-#     tenant.person_detail()
+def show_tenants():
+    for index, tenant in enumerate(tenants, start=1):
+        print(f"\nTenant {index} Details:")
+        tenant.person_detail()
     
 # Write a Lease Class to connect tenant with property:
 class Lease:
@@ -135,20 +137,48 @@ lease2.display_details()
 while True:
     choice = int(input("Enter What you want to perform:\n1) Add new Tenant\n2) Add Property\n3) Connect Property with Tenants\n4) Show All Tenants\n5) Show All Property\n6) Remove Tenants\n7) Add Rent\n8) Show Rent History\n9) Exit\n*) Enter the Option:- "))
     if choice == 1:  # Add Tenant
-        pass
+        print("Add new Tenant")
+        name = input('Enter The name of tenant: ')
+        gender = input('Enter the Gender: ')
+        Num = input('Enter the Number: ')
+        email = input('Enter the email: ')
+        t = Tenant(name, gender, Num, email)
+        tenants.append(t)
     elif choice == 2:  # Add Property
         pass    
     elif choice == 3:   # Connect both
         pass    
     elif choice == 4:   # Show All Tenants
-        pass    
+        show_tenants()
     elif choice == 5:   # Show All properties
-        pass    
+        for index, property_obj in enumerate(properties, start=1):
+            print(f"\nProperty {index} Details:")
+            property_obj.Detail()    
     elif choice == 6:   # Remove Tenants
-        pass    
+        show_tenants()
+        ask = int(input("Enter the Tenants Number To Remove: ")) - 1  # -1 because index 
+        tenants.pop(ask)
+        print(f"Successfully removed Tenants")
     elif choice == 7:   # Add Rent
-        pass    
-    elif choice == 8:   # Show Rent History 
-        pass     
-    elif choice == 8:   # Show Rent History 
-        pass     
+        show_tenants()
+        ask =  int(input("Enter the Tenants Number For Adding Rent: ")) - 1
+        b = tenants[ask].person_detail() # Show the person
+        # print(b)
+        rent = int(input("Enter the rent Amount: "))
+        a = tenants[ask]
+        a.add_rent(rent)
+        a.rent_history.append(rent)
+        b = tenants[ask].person_detail() # Show the person
+        print(b)
+        
+    elif choice == 8:   # Show Rent History
+        show_tenants()
+        ask =  int(input("Enter the Tenants Number For Showing Rent History: ")) - 1
+        b = tenants[ask].rent_history # Show the person
+        print(b)
+        
+        
+    elif choice == 9:   # Upgrade tenant info
+        break
+    elif choice == 9:   # Exit
+        break
