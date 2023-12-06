@@ -132,3 +132,23 @@ lease2.display_details()
 # t1.add_rent(10000)
 # # Display rent history
 # t1.display_rent_history()
+while True:
+    choice = int(input("Enter What you want to perform:\n1) Add new Tenant\n2) Add Property\n3) Connect Property with Tenants\n4) Show All Tenants\n5) Show All Property\n6) Remove Tenants\n7) Add Rent\n8) Show Rent History\n9) Exit\n*) Enter the Option:- "))
+    if choice == 1:  # Add Tenant
+        pass
+    elif choice == 2:  # Add Property
+        pass    
+    elif choice == 3:   # Connect both
+        pass    
+    elif choice == 4:   # Show All Tenants
+        pass    
+    elif choice == 5:   # Show All properties
+        pass    
+    elif choice == 6:   # Remove Tenants
+        pass    
+    elif choice == 7:   # Add Rent
+        pass    
+    elif choice == 8:   # Show Rent History 
+        pass     
+    elif choice == 8:   # Show Rent History 
+        pass     

@@ -144,6 +144,8 @@ while True:
         display_properties(properties)
         
     elif choice == 5:
+        display_tenants_properly(tenants)
+        display_tenants_properly(tenants)
         a = connect_tenants_and_properties(tenants, properties)
         print(a)
     
