@@ -236,6 +236,7 @@ while True:
         
         elif choice == 11:   # Exit
             break
+        
     except ValueError:
         print("Invalid input. Please enter a valid integer.")
     except Exception as e:
