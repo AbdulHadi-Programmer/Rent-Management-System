@@ -144,16 +144,19 @@ lease2.display_details()
 # t1.add_rent(10000)
 # # Display rent history
 # t1.display_rent_history()
+# After writing the menu , if i have time then i can also add the program into the category
+# like: Tenants = Add, Update , Remove, Show All tenants
+# Properties = Add, 
+# lease = Show All Lease, Connect Both, Add
 while True:
     try:
-        choice = int(input("Enter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Upgrade Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
+        choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
         if choice == 1:  # Add Tenant
             print("Add new Tenant")
             name = input('Enter The name of tenant: ')
-            gender = input('Enter the Gender: ')
             Num = input('Enter the Number: ')
             email = input('Enter the email: ')
-            t = Tenant(name, gender, Num, email)
+            t = Tenant(name, Num, email)
             tenants.append(t)
         elif choice == 2:  # Add Property
             #  HouseName, noOfRooms, rent
@@ -164,7 +167,19 @@ while True:
             properties.append(p)
             show_properties()   
         elif choice == 3:   # Connect both
+            ####################################################
+            # This is a pending Section in this first
+            # 1) I want to check if tenant is less than properties or equal than
+            # 2) If it was less than properties then add tenant and then add lease with new properties as we can select it 
+            # 3) If the tenants was more show the error using exception handling
+            # 4) Then add new properties 
+            # 5) And only Show that property on lease which is vacant mean if 4 tenant and 6 properties then show the last 2 properties to add the tenant to that property 
+            # 6) And then add these two in the lease class and then append the lease objct into the list
             
+            # Lease :
+            # tenant, property, duration
+            # show_tenants()
+            # show_properties()
             
         # property1 = Property("House1", 2, 12000)
         # tenant1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
@@ -182,6 +197,9 @@ while True:
             tenants.pop(ask)
             print(f"Successfully removed Tenants")
         elif choice == 7:   # Add Rent
+            # For Adding rent, Show Only the lease tenant that is at least 4 not all 
+            # otherwise it will give error if we add new tenant and add rent without 
+            # connecting with property so please please this
             show_tenants()
             ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
             if 0 <= ask < len(tenants):
