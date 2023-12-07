@@ -23,28 +23,34 @@ class Property:
 # p2 = Property("House2", 4, 25000)
 # p2.Detail()
 # properties = [p1, p2]
-
-properties = [
+p1 = Property("House1", 2, 15000)
+p2 = Property("House2", 3, 52000)
+p3 = Property("House3", 2, 15000)
+p4 = Property("House4", 2, 15000)
+p5 = Property("House5", 4, 60000)
+p6 = Property("House6", 5, 65000)
+properties = [p1, p2, p3, p4, p5, p6]
+"""properties = [
         Property("House1", 2, 15000), # Direct make class as list element
-        Property("House1", 3, 52000),
-        Property("House1", 2, 12000),
-        Property("House2", 1, 10000),
-        Property("House2", 4, 60000),
-        Property("House2", 5, 65000),
+        Property("House2", 3, 52000),
+        Property("House3", 2, 12000),
+        Property("House4", 1, 10000),
+        Property("House5", 4, 60000),
+        Property("House6", 5, 65000),
         # Add more properties as needed
-    ]
+    ]"""
 #     # Display details for each property using a loop and enumerate
 # for index, property_obj in enumerate(properties, start=1):
 #     print(f"\nProperty {index} Details:")
 #     property_obj.Detail()
 
 class Tenant:
-    def __init__(self, name, gender, contactNum, email):
+    def __init__(self, name, contactNum, email):
         self.name = name
-        self.gender = gender
         self.contactNum = contactNum
         self.email = email
         self.rent_history = []
+
 
     def add_rent(self, rent_amount):
         self.rent_history.append(rent_amount)
@@ -52,23 +58,22 @@ class Tenant:
     
     def display_rent_history(self):
         print(f'Rent History for {self.name}: {self.rent_history}\n')
+        print(f'The Total Sum Of Rent Amount is {sum(self.rent_history)}')
     
     def person_detail(self):
-        # print(f'Tenant Detail:\nName: {self.name}\nGender: {self.gender}\nPhone Num: {self.contactNum}\nEmail: {self.email}\n')
-        print(f'Name: {self.name}\nGender: {self.gender}\nPhone Num: {self.contactNum}\nEmail: {self.email}\n')
+        print(f'Name: {self.name}\nPhone Num: {self.contactNum}\nEmail: {self.email}\n')
     
-    def update_details(self, new_name, new_gender, new_contactNum, new_email):
+    def update_details(self, new_name, new_contactNum, new_email):
         self.name = new_name
-        self.gender = new_gender
         self.contactNum = new_contactNum
         self.email = new_email
         print(f'Tenant details updated.\n')
 
 
-t1 = Tenant("Abdul Hadi", "Male", "+922319536","abc@gmail.com") # Make object of class to store in list 
-t2 = Tenant("Jane Smith", "Female", "+987654321", "jane@example.com")
-t3 = Tenant("Bob Johnson", "Male", "+111222333", "bob@example.com")
-t4 = Tenant("John Doe", "Male", "+123456789", "john@example.com")
+t1 = Tenant("Abdul Hadi", "+922319536","abc@gmail.com") # Make object of class to store in list 
+t2 = Tenant("Jane Smith", "+987654321", "jane@example.com")
+t3 = Tenant("Bob Johnson", "+111222333", "bob@example.com")
+t4 = Tenant("John Doe", "+123456789", "john@example.com")
 tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
 # t_detail = [t1.person_detail(), t2.person_detail(), t3.person_detail(), t4.person_detail() ]
 ## t1.person_detail()
@@ -77,7 +82,11 @@ def show_tenants():
     for index, tenant in enumerate(tenants, start=1):
         print(f"\nTenant {index} Details:")
         tenant.person_detail()
-    
+        
+def show_properties():
+    for index, property_obj in enumerate(properties, start=1):
+        print(f"\nProperty {index} Details:")
+        property_obj.Detail()
 # Write a Lease Class to connect tenant with property:
 class Lease:
     def __init__(self, tenant, property, duration):
@@ -101,9 +110,10 @@ class Lease:
         else:
             print('No tenant to remove from the lease.\n')
     
-# l1 = Lease(tenants[0], properties[0])
-# l2 = Lease(tenants[1], properties[1])
-# l3 = Lease(tenants[2], properties[2])
+l1 = Lease(tenants[0], properties[3], "1 year")
+l2 = Lease(tenants[1], properties[1], "9 month")
+l3 = Lease(tenants[2], properties[0], "3 year")
+l4 = Lease(tenants[3], properties[2], "2 month")
 #################################################
 # print("\n\n\nExample Showeing:\n\n")
 # Example usage:
@@ -135,50 +145,80 @@ lease2.display_details()
 # # Display rent history
 # t1.display_rent_history()
 while True:
-    choice = int(input("Enter What you want to perform:\n1) Add new Tenant\n2) Add Property\n3) Connect Property with Tenants\n4) Show All Tenants\n5) Show All Property\n6) Remove Tenants\n7) Add Rent\n8) Show Rent History\n9) Exit\n*) Enter the Option:- "))
-    if choice == 1:  # Add Tenant
-        print("Add new Tenant")
-        name = input('Enter The name of tenant: ')
-        gender = input('Enter the Gender: ')
-        Num = input('Enter the Number: ')
-        email = input('Enter the email: ')
-        t = Tenant(name, gender, Num, email)
-        tenants.append(t)
-    elif choice == 2:  # Add Property
-        pass    
-    elif choice == 3:   # Connect both
-        pass    
-    elif choice == 4:   # Show All Tenants
-        show_tenants()
-    elif choice == 5:   # Show All properties
-        for index, property_obj in enumerate(properties, start=1):
-            print(f"\nProperty {index} Details:")
-            property_obj.Detail()    
-    elif choice == 6:   # Remove Tenants
-        show_tenants()
-        ask = int(input("Enter the Tenants Number To Remove: ")) - 1  # -1 because index 
-        tenants.pop(ask)
-        print(f"Successfully removed Tenants")
-    elif choice == 7:   # Add Rent
-        show_tenants()
-        ask =  int(input("Enter the Tenants Number For Adding Rent: ")) - 1
-        b = tenants[ask].person_detail() # Show the person
-        # print(b)
-        rent = int(input("Enter the rent Amount: "))
-        a = tenants[ask]
-        a.add_rent(rent)
-        a.rent_history.append(rent)
-        b = tenants[ask].person_detail() # Show the person
-        print(b)
+    try:
+        choice = int(input("Enter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Upgrade Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
+        if choice == 1:  # Add Tenant
+            print("Add new Tenant")
+            name = input('Enter The name of tenant: ')
+            gender = input('Enter the Gender: ')
+            Num = input('Enter the Number: ')
+            email = input('Enter the email: ')
+            t = Tenant(name, gender, Num, email)
+            tenants.append(t)
+        elif choice == 2:  # Add Property
+            #  HouseName, noOfRooms, rent
+            HouseName = input("Enter The name of House: ")
+            noOfRooms = int(input(f"Enter the no of rooms in {HouseName}: "))
+            rent = int(input("Enter the rent amount for the property: "))
+            p = Property(HouseName, noOfRooms, rent)
+            properties.append(p)
+            show_properties()   
+        elif choice == 3:   # Connect both
+            
+            
+        # property1 = Property("House1", 2, 12000)
+        # tenant1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
+        # lease1 = Lease(tenant1, property1, "1 year")
+            pass    
+        elif choice == 4:   # Show All Tenants
+            show_tenants()
+            
+        elif choice == 5:   # Show All properties
+            show_properties()
+                
+        elif choice == 6:   # Remove Tenants
+            show_tenants()
+            ask = int(input("Enter the Tenants Number To Remove: ")) - 1  # -1 because index 
+            tenants.pop(ask)
+            print(f"Successfully removed Tenants")
+        elif choice == 7:   # Add Rent
+            show_tenants()
+            ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
+            if 0 <= ask < len(tenants):
+                rent = int(input("Enter the rent Amount: "))
+                a = tenants[ask]
+                a.add_rent(rent)
+                b = tenants[ask].person_detail()
+                print(b)
+            else:
+                print("Invalid tenant index. Please enter a valid index.")
+            
+        elif choice == 8:   # Show Rent History
+            show_tenants()
+            ask = int(input("Enter the Tenants Number For Showing Rent History: ")) - 1
+            if 0 <= ask < len(tenants):
+                tenants[ask].display_rent_history() # t1.displayrent()     ## show rent history
+            else:
+                print("Invalid tenant index. Please enter a valid index.")
         
-    elif choice == 8:   # Show Rent History
-        show_tenants()
-        ask =  int(input("Enter the Tenants Number For Showing Rent History: ")) - 1
-        b = tenants[ask].rent_history # Show the person
-        print(b)
+        elif choice == 9:   # Upgrade tenant info
+            show_tenants()
+            ask = int(input("Enter the Tenants Number For Upgrading Information: ")) - 1
+            new_name = input('Enter the Name: ')
+            new_contactNum = input('Enter the Phone Number: ')
+            new_email = input('Enter the new email: ')
+            tenants[ask].update_details(new_name, new_contactNum, new_email)
+            show_tenants()
+
+        elif choice == 10:   # Search and display lease details for a specific tenant
+            show_tenants()
+            ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
+            lst = [l1, l2, l3, l4]
+            lst[ask].display_details()
         
-        
-    elif choice == 9:   # Upgrade tenant info
-        break
-    elif choice == 9:   # Exit
-        break
+        elif choice == 11:   # Exit
+            break
+    except ValueError:
+        print("Invalid input. Please enter a valid integer.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
