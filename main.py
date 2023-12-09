@@ -154,14 +154,15 @@ def display_valid_and_invalid_leases():
     global invalid_properties, invalid_tenants
     valid_leases = []
     invalid_properties = []  # Invalid Properties
-    invalid_tenants = []     # Invalid Tenants
+    invalid_tenants = []  # Invalid Tenants
 
-    # Set of all properties
+    # Set of all properties and tenants
     all_properties = set(properties)
+    all_tenants = set(tenants)
 
     # Iterate through leases
     for lease in leases:
-        # Check if the property in the lease is present in the list of properties
+        # Check if the property and tenant in the lease are present in the lists
         if lease.property in properties and lease.tenant in tenants:
             valid_leases.append(lease)
         else:
@@ -173,6 +174,9 @@ def display_valid_and_invalid_leases():
 
     # Properties without a tenant
     unleased_properties = all_properties - set(p.property for p in leases)
+
+    # Tenants without a lease
+    unleased_tenants = all_tenants - set(l.tenant for l in leases)
 
     # Display details for valid leases
     if valid_leases:
@@ -197,10 +201,13 @@ def display_valid_and_invalid_leases():
             print(f"\nUnleased Property {index} Details:")
             unleased_property.Detail()
 
-    # Check if there are more tenants than properties
-    if len(tenants) > len(properties):
-        print("\nWarning: There are more tenants than properties.")
-        print("Some tenants may not have properties leased.")
+    # Display tenants without a lease
+    if unleased_tenants:
+        print("\nUnleased Tenants:")
+        for index, unleased_tenant in enumerate(unleased_tenants, start=1):
+            print(f"\nUnleased Tenant {index} Details:")
+            unleased_tenant.person_detail()
+
 
     
 while True:
@@ -214,7 +221,7 @@ while True:
             t = Tenant(name, Num, email)
             tenants.append(t)
         elif choice == 2:  # Add Property
-            #  HouseName, noOfRooms, rent
+            # HouseName, noOfRooms, rent
             HouseName = input("Enter The name of House: ")
             noOfRooms = int(input(f"Enter the no of rooms in {HouseName}: "))
             rent = int(input("Enter the rent amount for the property: "))
@@ -223,25 +230,8 @@ while True:
             show_properties()   
         elif choice == 3:   # Connect both
             display_valid_and_invalid_leases()
-            invalid_properties
-            ####################################################
-            # This is a pending Section in this first
-            # 1) I want to check if tenant is less than properties or equal than
-            # 2) If it was less than properties then add tenant and then add lease with new properties as we can select it 
-            # 3) If the tenants was more show the error using exception handling
-            # 4) Then add new properties 
-            # 5) And only Show that property on lease which is vacant mean if 4 tenant and 6 properties then show the last 2 properties to add the tenant to that property 
-            # 6) And then add these two in the lease class and then append the lease objct into the list
-            
-            # Lease :
-            # tenant, property, duration
-            # show_tenants()
-            # show_properties()
-            
-        # property1 = Property("House1", 2, 12000)
-        # tenant1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
-        # lease1 = Lease(tenant1, property1, "1 year")
-            pass    
+            # Write a connection with tenant name function and also add to put them in lease class and then append it to lease list
+            pass
         elif choice == 4:   # Show All Tenants
             show_tenants()
             
