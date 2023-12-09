@@ -114,6 +114,8 @@ l1 = Lease(tenants[0], properties[3], "1 year")
 l2 = Lease(tenants[1], properties[1], "9 month")
 l3 = Lease(tenants[2], properties[0], "3 year")
 l4 = Lease(tenants[3], properties[2], "2 month")
+leases = [l1, l2, l3, l4]
+
 #################################################
 # print("\n\n\nExample Showeing:\n\n")
 # Example usage:
@@ -148,6 +150,63 @@ lease2.display_details()
 # like: Tenants = Add, Update , Remove, Show All tenants
 # Properties = Add, 
 # lease = Show All Lease, Connect Both, Add
+
+def display_valid_and_invalid_leases():
+    global invalid_properties, invalid_tenants
+    valid_leases = []
+    invalid_properties = [] # Invalid Properties
+    invalid_tenants = []    # Invalid Tenants
+
+    # Iterate through leases
+    # leases = [l1, l2, l3, l4]
+    for lease in leases:
+    # Check if the property in the lease is present in the list of properties
+        if lease.property in properties and lease.tenant in tenants:
+            valid_leases.append(lease)
+        else:
+            # If property or tenant is missing, append to the respective invalid list
+            if lease.property not in properties:
+                invalid_properties.append(lease.property)
+            if lease.tenant not in tenants:
+                invalid_tenants.append(lease.tenant)
+    
+# Display details for valid leases
+    if valid_leases:
+        print("\nValid Leases:")
+        for index, lease in enumerate(valid_leases, start=1):
+            print(f"\nValid Lease {index} Details:")
+            lease.display_details()
+    else:
+        print("No valid leases found.")
+    
+    # Display details for invalid properties
+    if invalid_properties:
+        print("\nInvalid Properties:")
+        for index, invalid_property in enumerate(set(invalid_properties), start=1):
+            print(f"\nInvalid Property {index} Details:")
+            invalid_property.Detail()
+
+    # Display details for invalid tenants
+    if invalid_tenants:
+        print("\nInvalid Tenants:")
+        for index, invalid_tenant in enumerate(set(invalid_tenants), start=1):
+            print(f"\nInvalid Tenant {index} Details:")
+            invalid_tenant.person_detail()
+
+    # Check if there are more tenants than properties
+    if len(tenants) > len(properties):
+        print("\nWarning: There are more tenants than properties.")
+        print("Some tenants may not have properties leased.")
+    
+    a = int (input("Enter the num to see the 0)Tenants and 1)Properties 3)Exit: "))
+    if a == 0:
+        print(invalid_tenants)
+    elif a == 1:
+        print(invalid_properties)
+    else:
+        pass
+    
+    
 while True:
     try:
         choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
@@ -167,6 +226,8 @@ while True:
             properties.append(p)
             show_properties()   
         elif choice == 3:   # Connect both
+            display_valid_and_invalid_leases()
+            invalid_properties
             ####################################################
             # This is a pending Section in this first
             # 1) I want to check if tenant is less than properties or equal than
@@ -196,10 +257,8 @@ while True:
             ask = int(input("Enter the Tenants Number To Remove: ")) - 1  # -1 because index 
             tenants.pop(ask)
             print(f"Successfully removed Tenants")
+
         elif choice == 7:   # Add Rent
-            # For Adding rent, Show Only the lease tenant that is at least 4 not all 
-            # otherwise it will give error if we add new tenant and add rent without 
-            # connecting with property so please please this
             show_tenants()
             ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
             if 0 <= ask < len(tenants):
