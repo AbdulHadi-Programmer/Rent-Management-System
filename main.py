@@ -77,7 +77,6 @@ t4 = Tenant("John Doe", "+123456789", "john@example.com")
 tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
 # t_detail = [t1.person_detail(), t2.person_detail(), t3.person_detail(), t4.person_detail() ]
 ## t1.person_detail()
-## t1.contract()
 def show_tenants():
     for index, tenant in enumerate(tenants, start=1):
         print(f"\nTenant {index} Details:")
@@ -150,17 +149,19 @@ lease2.display_details()
 # like: Tenants = Add, Update , Remove, Show All tenants
 # Properties = Add, 
 # lease = Show All Lease, Connect Both, Add
-
+#### Leases Detail Function:
 def display_valid_and_invalid_leases():
     global invalid_properties, invalid_tenants
     valid_leases = []
-    invalid_properties = [] # Invalid Properties
-    invalid_tenants = []    # Invalid Tenants
+    invalid_properties = []  # Invalid Properties
+    invalid_tenants = []     # Invalid Tenants
+
+    # Set of all properties
+    all_properties = set(properties)
 
     # Iterate through leases
-    # leases = [l1, l2, l3, l4]
     for lease in leases:
-    # Check if the property in the lease is present in the list of properties
+        # Check if the property in the lease is present in the list of properties
         if lease.property in properties and lease.tenant in tenants:
             valid_leases.append(lease)
         else:
@@ -169,8 +170,11 @@ def display_valid_and_invalid_leases():
                 invalid_properties.append(lease.property)
             if lease.tenant not in tenants:
                 invalid_tenants.append(lease.tenant)
-    
-# Display details for valid leases
+
+    # Properties without a tenant
+    unleased_properties = all_properties - set(p.property for p in leases)
+
+    # Display details for valid leases
     if valid_leases:
         print("\nValid Leases:")
         for index, lease in enumerate(valid_leases, start=1):
@@ -178,7 +182,7 @@ def display_valid_and_invalid_leases():
             lease.display_details()
     else:
         print("No valid leases found.")
-    
+
     # Display details for invalid properties
     if invalid_properties:
         print("\nInvalid Properties:")
@@ -186,26 +190,18 @@ def display_valid_and_invalid_leases():
             print(f"\nInvalid Property {index} Details:")
             invalid_property.Detail()
 
-    # Display details for invalid tenants
-    if invalid_tenants:
-        print("\nInvalid Tenants:")
-        for index, invalid_tenant in enumerate(set(invalid_tenants), start=1):
-            print(f"\nInvalid Tenant {index} Details:")
-            invalid_tenant.person_detail()
+    # Display properties without a tenant
+    if unleased_properties:
+        print("\nUnleased Properties:")
+        for index, unleased_property in enumerate(unleased_properties, start=1):
+            print(f"\nUnleased Property {index} Details:")
+            unleased_property.Detail()
 
     # Check if there are more tenants than properties
     if len(tenants) > len(properties):
         print("\nWarning: There are more tenants than properties.")
         print("Some tenants may not have properties leased.")
-    
-    a = int (input("Enter the num to see the 0)Tenants and 1)Properties 3)Exit: "))
-    if a == 0:
-        print(invalid_tenants)
-    elif a == 1:
-        print(invalid_properties)
-    else:
-        pass
-    
+
     
 while True:
     try:
