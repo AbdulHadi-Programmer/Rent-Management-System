@@ -94,7 +94,7 @@ class Lease:
         self.duration = duration
         
     def display_details(self):
-        print(f'Lease Details for {self.tenant.name}:\nProperty: {self.property.HouseName}\nDuration: {self.duration}')  # Fix the typo here
+        print(f'Lease Details for {self.tenant.name}:\nProperty: {self.property.HouseName}\nDuration: {self.duration}')
 
     def update_duration(self, new_duration):
         self.duration = new_duration
@@ -150,6 +150,21 @@ lease2.display_details()
 # Properties = Add, 
 # lease = Show All Lease, Connect Both, Add
 #### Leases Detail Function:
+
+def display_unleased_properties(unleased_properties):
+    if unleased_properties:
+        print("\nUnleased Properties:")
+        for index, unleased_property in enumerate(unleased_properties, start=1):
+            print(f"\nUnleased Property {index} Details:")
+            unleased_property.Detail()
+
+def display_unleased_tenants(unleased_tenants):
+    if unleased_tenants:
+        print("\nUnleased Tenants:")
+        for index, unleased_tenant in enumerate(unleased_tenants, start=1):
+            print(f"\nUnleased Tenant {index} Details:")
+            unleased_tenant.person_detail()
+
 def display_valid_and_invalid_leases():
     global invalid_properties, invalid_tenants
     valid_leases = []
@@ -194,22 +209,32 @@ def display_valid_and_invalid_leases():
             print(f"\nInvalid Property {index} Details:")
             invalid_property.Detail()
 
-    # Display properties without a tenant
-    if unleased_properties:
-        print("\nUnleased Properties:")
-        for index, unleased_property in enumerate(unleased_properties, start=1):
-            print(f"\nUnleased Property {index} Details:")
-            unleased_property.Detail()
+    # Call the functions to display unleased properties and tenants
+    ask = 0
+    while ask != 3:  # Continue prompting until the user chooses to exit
+        ask = int(input("\nEnter the following:\n1) Display Unleased Tenants\n2) Display Unleased Properties\n3) Exit\n*) Enter the option: "))
 
-    # Display tenants without a lease
-    if unleased_tenants:
-        print("\nUnleased Tenants:")
-        for index, unleased_tenant in enumerate(unleased_tenants, start=1):
-            print(f"\nUnleased Tenant {index} Details:")
-            unleased_tenant.person_detail()
+        if ask == 1:
+            display_unleased_tenants(unleased_tenants)
+        elif ask == 2:
+            display_unleased_properties(unleased_properties)
+        elif ask == 3:
+            print("Exiting...")
+        else:
+            print("Invalid option. Please enter a valid option.")
 
-
-    
+    """ask = int(input("Enter the following:\n1) Display Unleased Tenants\n2) Display Unleased Properties\n3) Exit\n*)Enter the option:- "))
+    if ask == 1:
+        display_unleased_tenants(unleased_tenants)
+    elif ask == 2:
+        display_unleased_properties(unleased_properties)
+    else:
+        pass
+"""
+def update_unleased_properties():
+    global unleased_properties
+    # Properties without a tenant
+    unleased_properties = set(p.property for p in properties) - set(p.property for p in leases)
 while True:
     try:
         choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
@@ -237,13 +262,17 @@ while True:
             
         elif choice == 5:   # Show All properties
             show_properties()
-                
+            
         elif choice == 6:   # Remove Tenants
             show_tenants()
-            ask = int(input("Enter the Tenants Number To Remove: ")) - 1  # -1 because index 
-            tenants.pop(ask)
-            print(f"Successfully removed Tenants")
-
+            ask = int(input("Enter the Tenant Number To Remove: ")) - 1  # -1 because index 
+            if 0 <= ask < len(tenants):
+                removed_tenant = tenants.pop(ask)
+                print(f"Successfully removed Tenant: {removed_tenant.name}")
+                update_unleased_properties()  # Update unleased properties after removing a tenant
+            else:
+                print("Invalid tenant index. Please enter a valid index.")
+        
         elif choice == 7:   # Add Rent
             show_tenants()
             ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
@@ -274,6 +303,7 @@ while True:
             show_tenants()
 
         elif choice == 10:   # Search and display lease details for a specific tenant
+            print("All Tenants List: ")
             show_tenants()
             ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
             lst = [l1, l2, l3, l4]
