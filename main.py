@@ -1,12 +1,4 @@
 # Rent Management System :
-# Two classes Tenants, Properties
-# Write a function that connect particular tenant to particular property 
-# Write two list of tenants and properties
-# Property is a class
-# properties is a list 
-## Add User Interaction '
-## Add Data Validation and we can also use Error Handling
-##
 
 class Property:
     Location = "Gazderabad" # I make location a class var because my all properties belong to this area
@@ -17,12 +9,7 @@ class Property:
         
     def Detail(self):
         print(f'The Property Detail:\nHouseName: {self.HouseName}\nLocation: {self.Location}\nNo of Rooms: {self.noOfRooms}\nRent: {self.rent}\n')
-# Now Property class is properly Working:
-# p1 = Property("House1", 2, 12000)
-# p1.Detail()
-# p2 = Property("House2", 4, 25000)
-# p2.Detail()
-# properties = [p1, p2]
+
 p1 = Property("House1", 2, 15000)
 p2 = Property("House2", 3, 52000)
 p3 = Property("House3", 2, 15000)
@@ -30,19 +17,6 @@ p4 = Property("House4", 2, 15000)
 p5 = Property("House5", 4, 60000)
 p6 = Property("House6", 5, 65000)
 properties = [p1, p2, p3, p4, p5, p6]
-"""properties = [
-        Property("House1", 2, 15000), # Direct make class as list element
-        Property("House2", 3, 52000),
-        Property("House3", 2, 12000),
-        Property("House4", 1, 10000),
-        Property("House5", 4, 60000),
-        Property("House6", 5, 65000),
-        # Add more properties as needed
-    ]"""
-#     # Display details for each property using a loop and enumerate
-# for index, property_obj in enumerate(properties, start=1):
-#     print(f"\nProperty {index} Details:")
-#     property_obj.Detail()
 
 class Tenant:
     def __init__(self, name, contactNum, email):
@@ -75,8 +49,7 @@ t2 = Tenant("Jane Smith", "+987654321", "jane@example.com")
 t3 = Tenant("Bob Johnson", "+111222333", "bob@example.com")
 t4 = Tenant("John Doe", "+123456789", "john@example.com")
 tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
-# t_detail = [t1.person_detail(), t2.person_detail(), t3.person_detail(), t4.person_detail() ]
-## t1.person_detail()
+
 def show_tenants():
     for index, tenant in enumerate(tenants, start=1):
         print(f"\nTenant {index} Details:")
@@ -115,40 +88,6 @@ l3 = Lease(tenants[2], properties[0], "3 year")
 l4 = Lease(tenants[3], properties[2], "2 month")
 leases = [l1, l2, l3, l4]
 
-#################################################
-# print("\n\n\nExample Showeing:\n\n")
-# Example usage:
-"""property1 = Property("House1", 2, 12000)
-tenant1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
-lease1 = Lease(tenant1, property1, "1 year")
-property2 = Property("House2", 2, 52000)
-tenant2 = Tenant("Abdul Bari", "Male", "+922319536", "Xyz@gmail.com")
-lease2 = Lease(tenant2, property2, "4 year")
-# Display details before any changes
-lease1.display_details()
-# Update tenant details
-tenant1.update_details("Updated Abdul Hadi", "Male", "+922319537", "updated_abc@gmail.com")
-# Update lease duration
-lease1.update_duration("2 years")
-# Display details after updates
-lease1.display_details()
-# Remove tenant from the lease
-lease1.remove_tenant()
-lease2.display_details()
-"""
-# # Rent Added Funcion (Example usage):
-# t1 = Tenant("Abdul Hadi", "Male", "+922319536", "abc@gmail.com")
-# l1 = Lease(t1, Property("House1", 2, 15000), "1 year")
-# # Add rent for the tenant
-# t1.add_rent(15000)
-# t1.add_rent(14000)
-# t1.add_rent(10000)
-# # Display rent history
-# t1.display_rent_history()
-# After writing the menu , if i have time then i can also add the program into the category
-# like: Tenants = Add, Update , Remove, Show All tenants
-# Properties = Add, 
-# lease = Show All Lease, Connect Both, Add
 #### Leases Detail Function:
 
 def display_unleased_properties(unleased_properties):
@@ -158,15 +97,22 @@ def display_unleased_properties(unleased_properties):
             print(f"\nUnleased Property {index} Details:")
             unleased_property.Detail()
 
-def display_unleased_tenants(unleased_tenants):
+"""def display_unleased_tenants(unleased_tenants):  # old function
+    global unleased_properties, unleased_tenant
     if unleased_tenants:
         print("\nUnleased Tenants:")
         for index, unleased_tenant in enumerate(unleased_tenants, start=1):
             print(f"\nUnleased Tenant {index} Details:")
-            unleased_tenant.person_detail()
-
+            unleased_tenant.person_detail()"""
+def display_unleased_tenants(unleased_tenants):  # New function
+    if unleased_tenants:
+        print("\nUnleased Tenants:")
+        for index, tenant in enumerate(unleased_tenants, start=1):
+            print(f"\nUnleased Tenant {index} Details:")
+            tenant.person_detail()
+            
 def display_valid_and_invalid_leases():
-    global invalid_properties, invalid_tenants
+    global invalid_properties, invalid_tenants, unleased_tenant
     valid_leases = []
     invalid_properties = []  # Invalid Properties
     invalid_tenants = []  # Invalid Tenants
@@ -223,14 +169,6 @@ def display_valid_and_invalid_leases():
         else:
             print("Invalid option. Please enter a valid option.")
 
-    """ask = int(input("Enter the following:\n1) Display Unleased Tenants\n2) Display Unleased Properties\n3) Exit\n*)Enter the option:- "))
-    if ask == 1:
-        display_unleased_tenants(unleased_tenants)
-    elif ask == 2:
-        display_unleased_properties(unleased_properties)
-    else:
-        pass
-"""
 def update_unleased_properties():
     global unleased_properties
     # Properties without a tenant
@@ -254,7 +192,8 @@ while True:
             properties.append(p)
             show_properties()   
         elif choice == 3:   # Connect both
-            display_valid_and_invalid_leases()
+            unleased_properties, unleased_tenants = display_valid_and_invalid_leases()  # Update global variables
+            # display_valid_and_invalid_leases()
             # Write a connection with tenant name function and also add to put them in lease class and then append it to lease list
             pass
         elif choice == 4:   # Show All Tenants
@@ -304,7 +243,10 @@ while True:
 
         elif choice == 10:   # Search and display lease details for a specific tenant
             print("All Tenants List: ")
-            show_tenants()
+            # Error in this code:
+            display_unleased_tenants(unleased_tenants), display_unleased_properties(unleased_properties)
+            
+            # show_tenants() # Show All lease Tenant , not unleased tenant
             ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
             lst = [l1, l2, l3, l4]
             lst[ask].display_details()
