@@ -112,7 +112,7 @@ def display_unleased_tenants(unleased_tenants):  # New function
             tenant.person_detail()
             
 def display_valid_and_invalid_leases():
-    global invalid_properties, invalid_tenants, unleased_tenant
+    global invalid_properties, invalid_tenants, unleased_tenants
     valid_leases = []
     invalid_properties = []  # Invalid Properties
     invalid_tenants = []  # Invalid Tenants
@@ -176,6 +176,10 @@ def update_unleased_properties():
 while True:
     try:
         choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
+        
+        if choice in [3, 10]:
+            unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
+        
         if choice == 1:  # Add Tenant
             print("Add new Tenant")
             name = input('Enter The name of tenant: ')
@@ -192,8 +196,8 @@ while True:
             properties.append(p)
             show_properties()   
         elif choice == 3:   # Connect both
-            unleased_properties, unleased_tenants = display_valid_and_invalid_leases()  # Update global variables
-            # display_valid_and_invalid_leases()
+            # unleased_properties, unleased_tenants = display_valid_and_invalid_leases()  # Update global variables
+            display_valid_and_invalid_leases()  # This may need adjustment depending on your specific implementation
             # Write a connection with tenant name function and also add to put them in lease class and then append it to lease list
             pass
         elif choice == 4:   # Show All Tenants
@@ -242,15 +246,19 @@ while True:
             show_tenants()
 
         elif choice == 10:   # Search and display lease details for a specific tenant
-            print("All Tenants List: ")
-            # Error in this code:
-            display_unleased_tenants(unleased_tenants), display_unleased_properties(unleased_properties)
+            # print("All Tenants List: ")
+            # # Error in this code:
+            # display_unleased_tenants(unleased_tenants)  # , display_unleased_properties(unleased_properties)
             
-            # show_tenants() # Show All lease Tenant , not unleased tenant
-            ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
-            lst = [l1, l2, l3, l4]
-            lst[ask].display_details()
-        
+            # # show_tenants() # Show All lease Tenant , not unleased tenant
+            # ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
+            # lst = [l1, l2, l3, l4]
+            # lst[ask].display_details()
+            # unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
+            
+            # Now you can use unleased_tenants safely
+            display_unleased_tenants(unleased_tenants)
+            
         elif choice == 11:   # Exit
             break
         
