@@ -28,7 +28,8 @@ class Tenant:
 
     def add_rent(self, rent_amount):
         self.rent_history.append(rent_amount)
-        print(f'Rent of {rent_amount} added to {self.name}\'s history.\n')
+        message = f'Rent of {rent_amount} added to {self.name}\'s Rental History.'
+        return message
     
     def display_rent_history(self):
         print(f'Rent History for {self.name}: {self.rent_history}\n')
@@ -150,7 +151,7 @@ def display_valid_and_invalid_leases():
             
     return unleased_properties, unleased_tenants
 
-# Separate Function: 
+# Separate Lease Function: 
 def manage_leases():
     ask = 0
     while ask != 3:  # Continue prompting until the user chooses to exit
@@ -196,7 +197,13 @@ def connect_property_with_tenants():
         print("Invalid input. Please enter valid numbers for Tenant and Property.")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
+        
+def print_lease_details(leases):
+    for index, lease in enumerate(leases, start=1):
+        print(f"\nLease {index} Details:")
+        lease.display_details()
 
+# The main Menu Code :
 while True:
     try:
         choice = int(input("\nEnter What you want to perform:\n1) Add new Tenant\n2) Add Property\n3) Connect Property with Tenants\n4) Show All Tenants\n5) Show All Property\n6) Remove Tenants\n7) Add Rent\n8) Show Rent History\n9) Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
@@ -241,17 +248,16 @@ while True:
                 print("Invalid tenant index. Please enter a valid index.")
                 
         elif choice == 7:  # Add Rent
-            show_tenants()
+            print_lease_details(leases)
             ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
             if 0 <= ask < len(tenants):
                 rent = int(input("Enter the rent Amount: "))
-                a = tenants[ask]
-                a.add_rent(rent)
-                b = tenants[ask].person_detail()
-                print(b)
+                tenant = tenants[ask]
+                result = tenant.add_rent(rent)
+                print(result)  # Now result will contain the message
             else:
                 print("Invalid tenant index. Please enter a valid index.")
-                
+            
         elif choice == 8:  # Show Rent History
             show_tenants()
             ask = int(input("Enter the Tenants Number For Showing Rent History: ")) - 1
@@ -271,7 +277,7 @@ while True:
         
         elif choice == 10:  # Show All Leases
             unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
-            display_unleased_tenants(unleased_tenants)
+            # display_unleased_tenants(unleased_tenants) # Not show the tenant , only the leases
         
         elif choice == 11:  # Exit
             break
