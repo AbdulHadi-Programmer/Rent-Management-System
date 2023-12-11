@@ -147,6 +147,8 @@ def display_valid_and_invalid_leases():
         for index, invalid_property in enumerate(set(invalid_properties), start=1):
             print(f"\nInvalid Property {index} Details:")
             invalid_property.Detail()
+            
+    return unleased_properties, unleased_tenants
 
 # Separate Function: 
 def manage_leases():
@@ -168,13 +170,40 @@ def update_unleased_properties():
     # Properties without a tenant
     unleased_properties = set(p.property for p in properties) - set(p.property for p in leases)
 
+def connect_property_with_tenants():
+    global leases
+
+    # Convert sets to lists
+    unleased_properties_list = list(unleased_properties)
+    unleased_tenants_list = list(unleased_tenants)
+
+    # Display unleased properties and tenants
+    display_unleased_properties(unleased_properties_list)
+    display_unleased_tenants(unleased_tenants_list)
+
+    try:
+        # Get user input for connecting tenant with property
+        tenant_index = int(input("Enter the Tenant Number to connect: ")) - 1
+        property_index = int(input("Enter the Property Number to connect: ")) - 1
+        duration = input("Enter the lease duration (e.g., 1 year, 6 months): ")
+
+        # Create a lease object and add it to the leases list
+        new_lease = Lease(unleased_tenants_list[tenant_index], unleased_properties_list[property_index], duration)
+        leases.append(new_lease)
+
+        print(f"Successfully connected {unleased_tenants_list[tenant_index].name} with {unleased_properties_list[property_index].HouseName} for {duration}.")
+    except ValueError:
+        print("Invalid input. Please enter valid numbers for Tenant and Property.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 while True:
     try:
-        choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
-        
+        choice = int(input("\nEnter What you want to perform:\n1) Add new Tenant\n2) Add Property\n3) Connect Property with Tenants\n4) Show All Tenants\n5) Show All Property\n6) Remove Tenants\n7) Add Rent\n8) Show Rent History\n9) Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
+
         if choice in [3, 10]:
             unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
-                    
+        
         if choice == 1:  # Add Tenant
             print("Add new Tenant")
             name = input('Enter The name of tenant: ')
@@ -182,34 +211,36 @@ while True:
             email = input('Enter the email: ')
             t = Tenant(name, Num, email)
             tenants.append(t)
+            
         elif choice == 2:  # Add Property
-            # HouseName, noOfRooms, rent
             HouseName = input("Enter The name of House: ")
             noOfRooms = int(input(f"Enter the no of rooms in {HouseName}: "))
             rent = int(input("Enter the rent amount for the property: "))
             p = Property(HouseName, noOfRooms, rent)
             properties.append(p)
-            show_properties()   
-        elif choice == 3:   # Connect both
-            display_unleased_tenants(unleased_tenants)  # This may need adjustment depending on your specific implementation
-            
-        elif choice == 4:   # Show All Tenants
-            show_tenants()
-            
-        elif choice == 5:   # Show All properties
             show_properties()
             
-        elif choice == 6:   # Remove Tenants
+        elif choice == 3:  # Connect Property with Tenants
+            # Add the logic for connecting property with tenants here
+            connect_property_with_tenants()
+            
+        elif choice == 4:  # Show All Tenants
             show_tenants()
-            ask = int(input("Enter the Tenant Number To Remove: ")) - 1  # -1 because index 
+            
+        elif choice == 5:  # Show All Properties
+            show_properties()
+            
+        elif choice == 6:  # Remove Tenants
+            show_tenants()
+            ask = int(input("Enter the Tenant Number To Remove: ")) - 1
             if 0 <= ask < len(tenants):
                 removed_tenant = tenants.pop(ask)
                 print(f"Successfully removed Tenant: {removed_tenant.name}")
-                update_unleased_properties()  # Update unleased properties after removing a tenant
+                update_unleased_properties()
             else:
                 print("Invalid tenant index. Please enter a valid index.")
-        
-        elif choice == 7:   # Add Rent
+                
+        elif choice == 7:  # Add Rent
             show_tenants()
             ask = int(input("Enter the Tenants Number For Adding Rent: ")) - 1
             if 0 <= ask < len(tenants):
@@ -220,16 +251,16 @@ while True:
                 print(b)
             else:
                 print("Invalid tenant index. Please enter a valid index.")
-            
-        elif choice == 8:   # Show Rent History
+                
+        elif choice == 8:  # Show Rent History
             show_tenants()
             ask = int(input("Enter the Tenants Number For Showing Rent History: ")) - 1
             if 0 <= ask < len(tenants):
-                tenants[ask].display_rent_history() # t1.displayrent()     ## show rent history
+                tenants[ask].display_rent_history()
             else:
                 print("Invalid tenant index. Please enter a valid index.")
         
-        elif choice == 9:   # Upgrade tenant info
+        elif choice == 9:  # Update Tenant Information
             show_tenants()
             ask = int(input("Enter the Tenants Number For Upgrading Information: ")) - 1
             new_name = input('Enter the Name: ')
@@ -237,24 +268,17 @@ while True:
             new_email = input('Enter the new email: ')
             tenants[ask].update_details(new_name, new_contactNum, new_email)
             show_tenants()
-
-        elif choice == 10:   # Search and display lease details for a specific tenant
-            # print("All Tenants List: ")
-            # # Error in this code:
-            # display_unleased_tenants(unleased_tenants)  # , display_unleased_properties(unleased_properties)
-            
-            # # show_tenants() # Show All lease Tenant , not unleased tenant
-            # ask = int(input("Enter the Tenants Number For Displaying Lease Details: ")) - 1
-            # lst = [l1, l2, l3, l4]
-            # lst[ask].display_details()
-            # unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
-            
-            # Now you can use unleased_tenants safely
+        
+        elif choice == 10:  # Show All Leases
+            unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
             display_unleased_tenants(unleased_tenants)
-            
-        elif choice == 11:   # Exit
+        
+        elif choice == 11:  # Exit
             break
         
+        else:
+            print("Invalid option. Please enter a valid option.")
+
     except ValueError:
         print("Invalid input. Please enter a valid integer.")
     except Exception as e:
