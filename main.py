@@ -97,22 +97,15 @@ def display_unleased_properties(unleased_properties):
             print(f"\nUnleased Property {index} Details:")
             unleased_property.Detail()
 
-"""def display_unleased_tenants(unleased_tenants):  # old function
-    global unleased_properties, unleased_tenant
-    if unleased_tenants:
-        print("\nUnleased Tenants:")
-        for index, unleased_tenant in enumerate(unleased_tenants, start=1):
-            print(f"\nUnleased Tenant {index} Details:")
-            unleased_tenant.person_detail()"""
-def display_unleased_tenants(unleased_tenants):  # New function
+def display_unleased_tenants(unleased_tenants):
     if unleased_tenants:
         print("\nUnleased Tenants:")
         for index, tenant in enumerate(unleased_tenants, start=1):
             print(f"\nUnleased Tenant {index} Details:")
             tenant.person_detail()
-            
+
 def display_valid_and_invalid_leases():
-    global invalid_properties, invalid_tenants, unleased_tenants
+    global unleased_tenants, unleased_properties
     valid_leases = []
     invalid_properties = []  # Invalid Properties
     invalid_tenants = []  # Invalid Tenants
@@ -155,7 +148,8 @@ def display_valid_and_invalid_leases():
             print(f"\nInvalid Property {index} Details:")
             invalid_property.Detail()
 
-    # Call the functions to display unleased properties and tenants
+# Separate Function: 
+def manage_leases():
     ask = 0
     while ask != 3:  # Continue prompting until the user chooses to exit
         ask = int(input("\nEnter the following:\n1) Display Unleased Tenants\n2) Display Unleased Properties\n3) Exit\n*) Enter the option: "))
@@ -173,13 +167,14 @@ def update_unleased_properties():
     global unleased_properties
     # Properties without a tenant
     unleased_properties = set(p.property for p in properties) - set(p.property for p in leases)
+
 while True:
     try:
         choice = int(input("\nEnter What you want to perform:\n1)  Add new Tenant\n2)  Add Property\n3)  Connect Property with Tenants\n4)  Show All Tenants\n5)  Show All Property\n6)  Remove Tenants\n7)  Add Rent\n8)  Show Rent History\n9)  Update Tenant Information\n10) Show All Leases\n11) Exit\n*) Enter the Option:- "))
         
         if choice in [3, 10]:
             unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
-        
+                    
         if choice == 1:  # Add Tenant
             print("Add new Tenant")
             name = input('Enter The name of tenant: ')
@@ -196,10 +191,8 @@ while True:
             properties.append(p)
             show_properties()   
         elif choice == 3:   # Connect both
-            # unleased_properties, unleased_tenants = display_valid_and_invalid_leases()  # Update global variables
-            display_valid_and_invalid_leases()  # This may need adjustment depending on your specific implementation
-            # Write a connection with tenant name function and also add to put them in lease class and then append it to lease list
-            pass
+            display_unleased_tenants(unleased_tenants)  # This may need adjustment depending on your specific implementation
+            
         elif choice == 4:   # Show All Tenants
             show_tenants()
             
