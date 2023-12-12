@@ -45,18 +45,21 @@ class Tenant:
         print(f'Tenant details updated.\n')
 
 
-t1 = Tenant("Abdul Hadi", "+922319536","abc@gmail.com") # Make object of class to store in list 
+t1 = Tenant("Alex Johnson", "+922319536","alex@gmail.com") # Make object of class to store in list 
 t2 = Tenant("Jane Smith", "+987654321", "jane@example.com")
 t3 = Tenant("Bob Johnson", "+111222333", "bob@example.com")
 t4 = Tenant("John Doe", "+123456789", "john@example.com")
-tenants = [t1, t2, t3, t4] # Storing All tenant with the objects name 
+t5 = Tenant("Maxwell", "+145236541", "max@gmail.com")
+tenants = [t1, t2, t3, t4, t5] # Storing All tenant with the objects name 
 
 def show_tenants():
+     """Display details of all tenants."""
     for index, tenant in enumerate(tenants, start=1):
         print(f"\nTenant {index} Details:")
         tenant.person_detail()
         
 def show_properties():
+    """Display details of all properties."""
     for index, property_obj in enumerate(properties, start=1):
         print(f"\nProperty {index} Details:")
         property_obj.Detail()
@@ -92,6 +95,7 @@ leases = [l1, l2, l3, l4]
 #### Leases Detail Function:
 
 def display_unleased_properties(unleased_properties):
+    """Display details of unleased properties."""
     if unleased_properties:
         print("\nUnleased Properties:")
         for index, unleased_property in enumerate(unleased_properties, start=1):
@@ -99,6 +103,7 @@ def display_unleased_properties(unleased_properties):
             unleased_property.Detail()
 
 def display_unleased_tenants(unleased_tenants):
+    """Display details of unleased tenants."""
     if unleased_tenants:
         print("\nUnleased Tenants:")
         for index, tenant in enumerate(unleased_tenants, start=1):
@@ -106,6 +111,7 @@ def display_unleased_tenants(unleased_tenants):
             tenant.person_detail()
 
 def display_valid_and_invalid_leases():
+    """Display valid and invalid leases, and return unleased properties and tenants."""
     global unleased_tenants, unleased_properties
     valid_leases = []
     invalid_properties = []  # Invalid Properties
@@ -153,6 +159,7 @@ def display_valid_and_invalid_leases():
 
 # Separate Lease Function: 
 def manage_leases():
+    """Manage unleased tenants and properties."""
     ask = 0
     while ask != 3:  # Continue prompting until the user chooses to exit
         ask = int(input("\nEnter the following:\n1) Display Unleased Tenants\n2) Display Unleased Properties\n3) Exit\n*) Enter the option: "))
@@ -167,11 +174,13 @@ def manage_leases():
             print("Invalid option. Please enter a valid option.")
 
 def update_unleased_properties():
+    """Update unleased properties based on current leases."""
     global unleased_properties
     # Properties without a tenant
     unleased_properties = set(p.property for p in properties) - set(p.property for p in leases)
 
 def connect_property_with_tenants():
+    """Connect properties with tenants."""
     global leases
 
     # Convert sets to lists
@@ -183,6 +192,23 @@ def connect_property_with_tenants():
     display_unleased_tenants(unleased_tenants_list)
 
     try:
+        # Check if unleased tenant list is empty
+        if not unleased_tenants_list:
+            print("No unleased tenants found.")
+            add_new_tenant = input("Do you want to add a new tenant? (yes/no): ").lower()
+            if add_new_tenant == "yes":
+                print("Add new Tenant: ")
+                name = input('Enter The name of tenant: ')
+                Num = input('Enter the Number: ')
+                email = input('Enter the email: ')
+                t = Tenant(name, Num, email)
+                tenants.append(t)
+                # Add logic to add a new tenant (you can call a function for adding a new tenant)
+                pass
+            else:
+                print("Passing the program.")
+                return
+
         # Get user input for connecting tenant with property
         tenant_index = int(input("Enter the Tenant Number to connect: ")) - 1
         property_index = int(input("Enter the Property Number to connect: ")) - 1
@@ -199,6 +225,7 @@ def connect_property_with_tenants():
         print(f"An unexpected error occurred: {e}")
         
 def print_lease_details(leases):
+    """Print lease details."""
     for index, lease in enumerate(leases, start=1):
         print(f"\nLease {index} Details:")
         lease.display_details()
@@ -212,7 +239,7 @@ while True:
             unleased_properties, unleased_tenants = display_valid_and_invalid_leases()
         
         if choice == 1:  # Add Tenant
-            print("Add new Tenant")
+            print("Add new Tenant: ")
             name = input('Enter The name of tenant: ')
             Num = input('Enter the Number: ')
             email = input('Enter the email: ')
@@ -228,7 +255,6 @@ while True:
             show_properties()
             
         elif choice == 3:  # Connect Property with Tenants
-            # Add the logic for connecting property with tenants here
             connect_property_with_tenants()
             
         elif choice == 4:  # Show All Tenants
